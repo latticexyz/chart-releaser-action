@@ -28,8 +28,6 @@ Usage: $(basename "$0") <options>
     -v, --version            The chart-releaser version to use (default: $DEFAULT_CHART_RELEASER_VERSION)"
         --config             The path to the chart-releaser config file
     -d, --charts-dir         The charts directory (default: charts)
-    -o, --owner              The repo owner
-    -r, --repo               The repo name
     -n, --install-dir        The Path to install the cr tool
     -i, --install-only       Just install the cr tool
     -s, --skip-packaging     Skip the packaging step (run your own packaging before using the releaser)
@@ -42,8 +40,6 @@ main() {
   local version="$DEFAULT_CHART_RELEASER_VERSION"
   local config=
   local charts_dir=charts
-  local owner=
-  local repo=
   local install_dir=
   local install_only=
   local skip_packaging=
@@ -182,18 +178,6 @@ parse_command_line() {
     shift
   done
 
-  if [[ -z "$owner" ]]; then
-    echo "ERROR: '-o|--owner' is required." >&2
-    show_help
-    exit 1
-  fi
-
-  if [[ -z "$repo" ]]; then
-    echo "ERROR: '-r|--repo' is required." >&2
-    show_help
-    exit 1
-  fi
-
   if [[ -z "$install_dir" ]]; then
     local arch
     arch=$(uname -m)
@@ -271,7 +255,7 @@ package_chart() {
 }
 
 release_charts() {
-  local args=(-o "$owner" -r "$repo" -c "$(git rev-parse HEAD)")
+  local args=(-c "$(git rev-parse HEAD)")
   if [[ -n "$config" ]]; then
     args+=(--config "$config")
   fi
@@ -287,7 +271,7 @@ release_charts() {
 }
 
 update_index() {
-  local args=(-o "$owner" -r "$repo" --push)
+  local args=(--push)
   if [[ -n "$config" ]]; then
     args+=(--config "$config")
   fi
