@@ -45,11 +45,7 @@ runs:
   steps:
     - id: release
       run: |
-        owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
-        repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
-
-        args=(--owner "$owner" --repo "$repo")
-        args+=(--charts-dir "${{ inputs.charts_dir }}")
+        args=(--charts-dir "${{ inputs.charts_dir }}")
 
         if [[ -n "${{ inputs.version }}" ]]; then
             args+=(--version "${{ inputs.version }}")
