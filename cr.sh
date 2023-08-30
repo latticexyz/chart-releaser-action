@@ -144,26 +144,6 @@ parse_command_line() {
         exit 1
       fi
       ;;
-    -o | --owner)
-      if [[ -n "${2:-}" ]]; then
-        owner="$2"
-        shift
-      else
-        echo "ERROR: '--owner' cannot be empty." >&2
-        show_help
-        exit 1
-      fi
-      ;;
-    -r | --repo)
-      if [[ -n "${2:-}" ]]; then
-        repo="$2"
-        shift
-      else
-        echo "ERROR: '--repo' cannot be empty." >&2
-        show_help
-        exit 1
-      fi
-      ;;
     -n | --install-dir)
       if [[ -n "${2:-}" ]]; then
         install_dir="$2"
